@@ -1,16 +1,9 @@
 /*
-  Rui Santos
-  Complete project details at https://RandomNerdTutorials.com/esp32-sim800l-publish-data-to-cloud/
-  
-  Permission is hereby granted, free of charge, to any person obtaining a copy
-  of this software and associated documentation files.
-  
-  The above copyright notice and this permission notice shall be included in all
-  copies or substantial portions of the Software.
-*/
+ * sends data to https://requestbin.com/r/enx5hjar0vnp/1ZoKHwU0sx3NiaVObRVsStA7eFE  
+ */
 
 // Your GPRS credentials (leave empty, if not needed)
-const char apn[]      = "internet"; // APN (example: internet.vodafone.pt) use https://wiki.apnchanger.org
+const char apn[]      = "chili"; // APN (example: internet.vodafone.pt) use https://wiki.apnchanger.org
 const char gprsUser[] = ""; // GPRS User
 const char gprsPass[] = ""; // GPRS Password
 
@@ -33,8 +26,7 @@ String apiKeyValue = "tPmAT5Ab3j7F9";
 #define MODEM_POWER_ON       23
 #define MODEM_TX             27
 #define MODEM_RX             26
-#define I2C_SDA              21
-#define I2C_SCL              22
+
 // BME280 pins
 #define I2C_SDA_2            18
 #define I2C_SCL_2            19
@@ -51,8 +43,9 @@ String apiKeyValue = "tPmAT5Ab3j7F9";
 // Define the serial console for debug prints, if needed
 //#define DUMP_AT_COMMANDS
 
-#include <Wire.h>
+
 #include <TinyGsmClient.h>
+#include "PowerSupply.h"
 
 #ifdef DUMP_AT_COMMANDS
   #include <StreamDebugger.h>
@@ -65,8 +58,9 @@ String apiKeyValue = "tPmAT5Ab3j7F9";
 // include <Adafruit_Sensor.h>
 // include <Adafruit_BME280.h>
 
-// I2C for SIM800 (to keep it running when powered from battery)
-TwoWire I2CPower = TwoWire(0);
+
+
+PowerSupply powerSupply = PowerSupply(); 
 
 // I2C for BME280 sensor
 //TwoWire I2CBME = TwoWire(1);
@@ -78,30 +72,18 @@ TinyGsmClient client(modem);
 #define uS_TO_S_FACTOR 1000000     /* Conversion factor for micro seconds to seconds */
 #define TIME_TO_SLEEP  36        /* Time ESP32 will go to sleep (in seconds) 3600 seconds = 1 hour */
 
-#define IP5306_ADDR          0x75
-#define IP5306_REG_SYS_CTL0  0x00
 
-bool setPowerBoostKeepOn(int en){
-  I2CPower.beginTransmission(IP5306_ADDR);
-  I2CPower.write(IP5306_REG_SYS_CTL0);
-  if (en) {
-    I2CPower.write(0x37); // Set bit1: 1 enable 0 disable boost keep on
-  } else {
-    I2CPower.write(0x35); // 0x37 is default reg value
-  }
-  return I2CPower.endTransmission() == 0;
-}
+
 
 void setup() {
   // Set serial monitor debugging window baud rate to 115200
   SerialMon.begin(115200);
 
-  // Start I2C communication
-  I2CPower.begin(I2C_SDA, I2C_SCL, 400000);
+  powerSupply.setup();
 //  I2CBME.begin(I2C_SDA_2, I2C_SCL_2, 400000);
 
   // Keep power when running from battery
-  bool isOk = setPowerBoostKeepOn(1);
+  bool isOk = powerSupply.setPowerBoostKeepOn(1);
   SerialMon.println(String("IP5306 KeepOn ") + (isOk ? "OK" : "FAIL"));
 
   // Set modem reset, enable, power pins
@@ -152,17 +134,14 @@ void loop() {
     
       // Making an HTTP POST request
       SerialMon.println("Performing HTTP POST request...");
+
+      bool usb = powerSupply.getPowerSource();
+      bool full = powerSupply.isBatteryFull();
       // Prepare your HTTP POST request data (Temperature in Celsius degrees)
-      String httpRequestData = "api_key=" + apiKeyValue + "&value1=1" 
-                             + "&value2=dfdfd&value3=1" + "";
-      // Prepare your HTTP POST request data (Temperature in Fahrenheit degrees)
-      //String httpRequestData = "api_key=" + apiKeyValue + "&value1=" + String(1.8 * bme.readTemperature() + 32)
-      //                       + "&value2=" + String(bme.readHumidity()) + "&value3=" + String(bme.readPressure()/100.0F) + "";
-          
-      // You can comment the httpRequestData variable above
-      // then, use the httpRequestData variable below (for testing purposes without the BME280 sensor)
-      //String httpRequestData = "api_key=tPmAT5Ab3j7F9&value1=24.75&value2=49.54&value3=1005.14";
-    
+      String httpRequestData = "powerSource=" + String(usb ? "USB" : "BATTERY") 
+                             + "&batteryFull=" + String(full ? "CHARGED" : (usb ? "CHARGING" : "DISCHARGING")) + "" 
+                             + "&batteryPercentage=" + String(powerSupply.getBatteryPercentage());
+      
       client.print(String("POST ") + resource + " HTTP/1.1\r\n");
       client.print(String("Host: ") + server + "\r\n");
       client.println("Connection: close");
