@@ -1,0 +1,32 @@
+version: '3.7'
+
+#;networks:
+#;  smartbike:
+  
+
+services:
+  smartbike-db:
+    image: mysql:5.7
+    container_name: smartbike-db
+    ports:
+    - 3307:3306
+    environment:
+      MYSQL_DATABASE: mysql_server
+      MYSQL_USER: smartbike
+      MYSQL_PASSWORD: smartbike
+      MYSQL_ROOT_PASSWORD: smartbike
+
+  smartbike-phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: phpmyadmin_maxistar
+    environment:
+      - PMA_ARBITRARY=1
+    links:
+      - smartbike-db
+    ports:
+      - 8090:80
+    volumes:
+      - /sessions
+
+#;    networks:
+#;    - smartbike
