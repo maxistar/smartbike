@@ -2,6 +2,11 @@
 
 LiliGo T-CALL-SIM800L module can be used or this project.
 
+# Post Status
+curl -X POST http://localhost:8080/api/status/ -H "Content-Type: application/json" -d '{"powerSource":"USB", "batteryStatus":"CHARGING", "battery":44}'
+                                       
+
+
 
 ## Links ##
 - [Random Nerd Tutorial](https://randomnerdtutorials.com/esp32-sim800l-publish-data-to-cloud/)
