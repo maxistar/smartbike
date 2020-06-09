@@ -3,8 +3,6 @@ version: '3.7'
 networks:
   smartbike:
 
-
-
 services:
   nodejs:
     build:
@@ -21,7 +19,7 @@ services:
       - .:/usr/src/app
     networks:
       - smartbike
-    command: "npm start"
+    command: "npm run dev"
 
   smartbike-db:
     image: mysql:5.7

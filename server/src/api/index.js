@@ -13,8 +13,12 @@ export default ({ config, db }) => {
 		res.json({ version });
 	});
 
-	api.get('/status/', (req, res) => {
-		res.json({ version });
+	api.get('/firmware/', (req, res) => {
+		db.query(
+			"select id, version, size, md5, marketing_version from firmware ORDER BY id DESC LIMIT 1",
+			(err, rows) => {
+				res.json(rows[0]);
+			});
 	});
 
 	api.post('/status/', (req, res) => {
