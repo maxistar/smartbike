@@ -121,7 +121,16 @@ void MobileModem::httpPost(String httpRequestData,const char* server,const char*
       SerialMon.println(F("GPRS disconnected"));
     }
   }
+
   
+  
+}
+
+void MobileModem::sleepMode() {
+    SerialMon.println(F("Going to Sleep Mode"));
+    modem.sendAT(GF("AT+CSCLK=2"));
+    modem.waitResponse();
+    SerialMon.println(F("Sleep Mode sent"));
 }
 
 

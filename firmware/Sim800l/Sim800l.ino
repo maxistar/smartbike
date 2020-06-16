@@ -55,6 +55,8 @@ void loop() {
                          + "&batteryPercentage=" + String(powerSupply.getBatteryPercentage());
 
   mobileModem.httpPost(httpRequestData, server, resource, port);
+
+  mobileModem.sleepMode();
   
   // Put ESP32 into deep sleep mode (with timer wake up)
   esp_deep_sleep_start();

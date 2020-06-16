@@ -8,6 +8,7 @@ class MobileModem {
   public:
   void setup();
   void httpPost(String httpRequestData,const char* server,const char* resource, int port);
+  void sleepMode();
 };
 
 #endif
