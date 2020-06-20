@@ -1,8 +1,11 @@
 #ifndef MOBILE_MODEM_CPP
 #define MOBILE_MODEM_CPP
 
-#include "Arduino.h"
-#include "MobileModem.h"
+// Copyright 2020 Max Starikov
+
+#include <TinyGsmClient.h>
+#include "./Arduino.h"
+#include "./MobileModem.h"
 
 // TTGO T-Call pins
 #define MODEM_RST            5
@@ -12,12 +15,12 @@
 #define MODEM_RX             26
 
 // Your GPRS credentials (leave empty, if not needed)
-const char apn[]      = "chili"; // APN (example: internet.vodafone.pt) use https://wiki.apnchanger.org
-const char gprsUser[] = ""; // GPRS User
-const char gprsPass[] = ""; // GPRS Password
+const char apn[]      = "chili";  // APN
+const char gprsUser[] = "";  // GPRS User
+const char gprsPass[] = "";  // GPRS Password
 
 // SIM card PIN (leave empty, if not defined)
-const char simPIN[]   = ""; 
+const char simPIN[] = "";
 
 
 // Set serial for debug console (to Serial Monitor, default speed 115200)
@@ -30,10 +33,9 @@ const char simPIN[]   = "";
 #define TINY_GSM_RX_BUFFER   1024  // Set RX buffer to 1Kb
 
 // Define the serial console for debug prints, if needed
-//#define DUMP_AT_COMMANDS
+// #define DUMP_AT_COMMANDS
 
 
-#include <TinyGsmClient.h>
 #ifdef DUMP_AT_COMMANDS
   #include <StreamDebugger.h>
   StreamDebugger debugger(SerialAT, SerialMon);
@@ -66,34 +68,34 @@ void MobileModem::setup() {
   // use modem.init() if you don't need the complete restart
 
   // Unlock your SIM card with a PIN if needed
-  if (strlen(simPIN) && modem.getSimStatus() != 3 ) {
+  if (strlen(simPIN) && modem.getSimStatus() != 3) {
     modem.simUnlock(simPIN);
   }
 }
 
-void MobileModem::httpPost(String httpRequestData,const char* server,const char* resource, int port) {
-  
+void MobileModem::httpPost(
+  String httpRequestData,
+  const char* server,
+  const char* resource,
+  int port
+) {
   SerialMon.print("Connecting to APN: ");
   SerialMon.print(apn);
   if (!modem.gprsConnect(apn, gprsUser, gprsPass)) {
     SerialMon.println(" fail");
-  }
-  else {
+  } else {
     SerialMon.println(" OK");
-    
+
     SerialMon.print("Connecting to ");
     SerialMon.print(server);
     if (!client.connect(server, port)) {
       SerialMon.println(" fail");
-    }
-    else {
+    } else {
       SerialMon.println(" OK");
-    
+
       // Making an HTTP POST request
       SerialMon.println("Performing HTTP POST request...");
 
-
-      
       client.print(String("POST ") + resource + " HTTP/1.1\r\n");
       client.print(String("Host: ") + server + "\r\n");
       client.println("Connection: close");
@@ -113,7 +115,7 @@ void MobileModem::httpPost(String httpRequestData,const char* server,const char*
         }
       }
       SerialMon.println();
-    
+
       // Close client and disconnect
       client.stop();
       SerialMon.println(F("Server disconnected"));
@@ -121,9 +123,6 @@ void MobileModem::httpPost(String httpRequestData,const char* server,const char*
       SerialMon.println(F("GPRS disconnected"));
     }
   }
-
-  
-  
 }
 
 void MobileModem::sleepMode() {

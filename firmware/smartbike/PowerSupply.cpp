@@ -1,10 +1,13 @@
 #ifndef POWER_SUPPLY_CPP
 #define POWER_SUPPLY_CPP
 
-#include "PowerSupply.h"
-#include "Arduino.h"
+// Copyright 2020 Max Starikov
 
-#include "IP5306.h"
+
+#include "./PowerSupply.h"
+#include "./Arduino.h"
+
+#include "./IP5306.h"
 
 
 // I2C for SIM800 (to keep it running when powered from battery)

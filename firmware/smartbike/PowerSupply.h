@@ -1,7 +1,9 @@
-#ifndef POWER_SUPPLY_H
-#define POWER_SUPPLY_H
+#ifndef FIRMWARE_SMARTBIKE_POWERSUPPLY_H_
+#define FIRMWARE_SMARTBIKE_POWERSUPPLY_H_
 
-#include "Arduino.h"
+// Copyright 2020 Max Starikov
+
+#include "./Arduino.h"
 
 class PowerSupply {
   public:
@@ -14,4 +16,4 @@ class PowerSupply {
 };
 
 
-#endif
+#endif  // FIRMWARE_SMARTBIKE_POWERSUPPLY_H_
