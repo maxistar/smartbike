@@ -9,6 +9,7 @@ import api from './api';
 import config from './config.json';
 import connection from 'mysql';
 import dotenv from 'dotenv';
+import md5File from 'md5-file'
 dotenv.config();
 
 let app = express();
@@ -31,6 +32,19 @@ initializeDb(connection,(db) => {
 
 	// internal middleware
 	app.use(middleware({ config, db }));
+
+    // static
+	app.use(express.static("/usr/src/app/web",
+        {
+            'setHeaders': setHeaders
+        }
+    ));
+
+    // Set header to force download
+    function setHeaders (res, path) {
+        console.log(path);
+        res.setHeader('MD5', md5File.sync(path))
+    }
 
 	// api router
 	app.use('/api', api({ config, db }));

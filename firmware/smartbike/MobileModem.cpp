@@ -3,9 +3,10 @@
 
 // Copyright 2020 Max Starikov
 
-#include <TinyGsmClient.h>
+
 #include "./Arduino.h"
 #include "./MobileModem.h"
+
 
 // TTGO T-Call pins
 #define MODEM_RST            5
@@ -36,6 +37,10 @@ const char simPIN[] = "";
 // #define DUMP_AT_COMMANDS
 
 
+
+#include <TinyGsmClient.h>
+
+
 #ifdef DUMP_AT_COMMANDS
   #include <StreamDebugger.h>
   StreamDebugger debugger(SerialAT, SerialMon);
@@ -43,10 +48,9 @@ const char simPIN[] = "";
 #else
   TinyGsm modem(SerialAT);
 #endif
-
-
 // TinyGSM Client for Internet connection
 TinyGsmClient client(modem);
+
 
 void MobileModem::setup() {
   // Set modem reset, enable, power pins

@@ -33,6 +33,7 @@
     "cors": "^2.7.1",
     "dotenv": "^8.2.0",
     "express": "^4.13.3",
+    "md5-file": "^5.0.0",
     "morgan": "^1.8.0",
     "mysql": "^2.18.1",
     "resource-router-middleware": "^0.6.0"

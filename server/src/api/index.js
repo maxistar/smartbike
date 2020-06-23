@@ -1,12 +1,8 @@
 import { version } from '../../package.json';
 import { Router } from 'express';
-import facets from './facets';
 
 export default ({ config, db }) => {
 	let api = Router();
-
-	// mount the facets resource
-	api.use('/facets', facets({ config, db }));
 
 	// perhaps expose some API metadata at the root
 	api.get('/', (req, res) => {
@@ -15,11 +11,19 @@ export default ({ config, db }) => {
 
 	api.get('/firmware/', (req, res) => {
 		db.query(
-			"select id, version, size, md5, marketing_version from firmware ORDER BY id DESC LIMIT 1",
+		    "select id, version, size, md5, marketing_version from firmware ORDER BY id DESC LIMIT 1",
 			(err, rows) => {
 				res.json(rows[0]);
 			});
 	});
+
+    api.get('/firmware/latest', (req, res) => {
+        db.query(
+            "SELECT id, version, size, md5, marketing_version FROM firmware ORDER BY id DESC LIMIT 1",
+            (err, rows) => {
+                res.json(rows[0]['id']);
+            });
+    });
 
 	api.post('/status/', (req, res) => {
 		console.log(req.body);

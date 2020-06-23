@@ -4,8 +4,9 @@ LiliGo T-CALL-SIM800L module can be used or this project.
 
 # Post Status
 curl -X POST http://localhost:8080/api/status/ -H "Content-Type: application/json" -d '{"powerSource":"USB", "batteryStatus":"CHARGING", "battery":44}'
-                                       
 
+#get firmware                                   
+curl http://localhost:8080/firmware/1/smartbike.ino.esp32.bin
 
 
 ## Links ##
