@@ -5,6 +5,7 @@
 
 #include "PowerSupply.h"
 #include "MobileModem.h"
+#include "Ota.h"
 #define SerialMon Serial
 
 // Server details
@@ -17,6 +18,7 @@ const int  port = 80;                             // server port number
 
 PowerSupply powerSupply = PowerSupply(); 
 MobileModem mobileModem = MobileModem();
+Ota ota = Ota();
 
 /* Conversion factor for micro seconds to seconds */
 #define uS_TO_S_FACTOR 1000000     
@@ -45,7 +47,7 @@ void setup() {
   esp_sleep_enable_timer_wakeup(TIME_TO_SLEEP * uS_TO_S_FACTOR);
 }
 
-void loop() {
+void sendState() {
   bool usb = powerSupply.getPowerSource();
   bool full = powerSupply.isBatteryFull();
   
@@ -57,6 +59,15 @@ void loop() {
   mobileModem.httpPost(httpRequestData, server, resource, port);
 
   mobileModem.sleepMode();
+}
+
+void checkNewFirmware() {
+   
+}
+
+void loop() {
+  checkNewFirmware();
+  sendState();
   
   // Put ESP32 into deep sleep mode (with timer wake up)
   esp_deep_sleep_start();

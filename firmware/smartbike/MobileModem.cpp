@@ -6,6 +6,7 @@
 
 #include "./Arduino.h"
 #include "./MobileModem.h"
+#include "utilities.h"
 
 
 // TTGO T-Call pins
