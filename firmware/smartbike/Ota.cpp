@@ -8,18 +8,14 @@
 
 #include "./Arduino.h"
 #include "./Ota.h"
-#include "./utilities.h"
 
 // Set serial for debug console (to the Serial Monitor, default speed 115200)
 #define SerialMon Serial
-// Set serial for AT commands (to the module)
-#define SerialAT  Serial1
 
 #define DEBUG_PRINT(...) { SerialMon.print(millis()); SerialMon.print(" - "); SerialMon.println(__VA_ARGS__); }
 #define DEBUG_FATAL(...) { SerialMon.print(millis()); SerialMon.print(" - FATAL: "); SerialMon.println(__VA_ARGS__); delay(10000); ESP.restart(); }
 
 // URL to download the firmware from
-String overTheAirURL = "http://vsh.pp.ua/ota/ttgo-t-call-B.bin";
 
 // Configure TinyGSM library
 #define TINY_GSM_MODEM_SIM800      // Modem is SIM800
@@ -29,68 +25,39 @@ String overTheAirURL = "http://vsh.pp.ua/ota/ttgo-t-call-B.bin";
 #include <TinyGsmClient.h>
 #include <Update.h>
 
-TinyGsm modem1(SerialAT);
+#include "config_common.h"
+#include "config_prod.h"
+#include "MobileModem.h"
+
+//TinyGsm modem1(SerialAT);
+
+const char server[] = EXTERNAL_URL;     // domain name: example.com, maker.ifttt.com, etc
+const int  port = EXTERNAL_URL_PORT;    // server port number
+
+Ota::Ota(MobileModem *modem) {
+  mobileModem = modem;
+}
 
 void Ota::checkUpdates() {
-   
-}
-
-
-
-void printDeviceInfo()
-{
-  Serial.println();
-  Serial.println("--------------------------");
-  Serial.println(String("Build:    ") +  __DATE__ " " __TIME__);
-#if defined(ESP8266)
-  Serial.println(String("Flash:    ") + ESP.getFlashChipRealSize() / 1024 + "K");
-  Serial.println(String("ESP core: ") + ESP.getCoreVersion());
-  Serial.println(String("FW info:  ") + ESP.getSketchSize() + "/" + ESP.getFreeSketchSpace() + ", " + ESP.getSketchMD5());
-#elif defined(ESP32)
-  Serial.println(String("Flash:    ") + ESP.getFlashChipSize() / 1024 + "K");
-  Serial.println(String("ESP sdk:  ") + ESP.getSdkVersion());
-  Serial.println(String("Chip rev: ") + ESP.getChipRevision());
-#endif
-  Serial.println(String("Free mem: ") + ESP.getFreeHeap());
-  Serial.println("--------------------------");
-}
-
-bool parseURL(String url, String& protocol, String& host, int& port, String& uri)
-{
-  int index = url.indexOf(':');
-  if(index < 0) {
-    return false;
+  String page = mobileModem->httpGet(server, "/api/firmware/latest/", port);
+  SerialMon.println("====");
+  SerialMon.println(page);
+  SerialMon.println("====");
+  int ver = page.toInt();
+  if (ver == 0) {
+    SerialMon.println("Error of checking of new firmware");
+    return;
   }
-
-  protocol = url.substring(0, index);
-  url.remove(0, (index + 3)); // remove protocol part
-
-  index = url.indexOf('/');
-  String server = url.substring(0, index);
-  url.remove(0, index);       // remove server part
-
-  index = server.indexOf(':');
-  if(index >= 0) {
-    host = server.substring(0, index);          // hostname
-    port = server.substring(index + 1).toInt(); // port
+  if (ver != FIRMWARE_VERSION) {
+    SerialMon.println("Found new firmware!");
+    String updateUrl = OTA_URL + String(ver) + "/smartbike.ino.esp32.bin";
+    this->startOtaUpdate(updateUrl);
   } else {
-    host = server;
-    if (protocol == "http") {
-      port = 80;
-    } else if (protocol == "https") {
-      port = 443;
-    }
+    SerialMon.println("No new firmware found");
   }
-
-  if (url.length()) {
-    uri = url;
-  } else {
-    uri = "/";
-  }
-  return true;
 }
 
-void startOtaUpdate(const String& ota_url)
+void Ota::startOtaUpdate(const String& ota_url)
 {
   String protocol, host, url;
   int port;
@@ -102,13 +69,15 @@ void startOtaUpdate(const String& ota_url)
   DEBUG_PRINT(String("Connecting to ") + host + ":" + port);
 
   Client* client = NULL;
+  TinyGsm *modem = mobileModem->getModem();
   if (protocol == "http") {
-    client = new TinyGsmClient(modem1);
+    
+    client = new TinyGsmClient(*modem);
     if (!client->connect(host.c_str(), port)) {
       DEBUG_FATAL(F("Client not connected"));
     }
   } else if (protocol == "https") {
-    client = new TinyGsmClientSecure(modem1);
+    client = new TinyGsmClientSecure(*modem);
     if (!client->connect(host.c_str(), port)) {
       DEBUG_FATAL(F("Client not connected"));
     }
@@ -211,6 +180,62 @@ void startOtaUpdate(const String& ota_url)
 
   DEBUG_PRINT("=== Update successfully completed. Rebooting.");
   ESP.restart();
+}
+
+
+
+
+void Ota::printDeviceInfo()
+{
+  Serial.println();
+  Serial.println("--------------------------");
+  Serial.println(String("Build:    ") +  __DATE__ " " __TIME__);
+#if defined(ESP8266)
+  Serial.println(String("Flash:    ") + ESP.getFlashChipRealSize() / 1024 + "K");
+  Serial.println(String("ESP core: ") + ESP.getCoreVersion());
+  Serial.println(String("FW info:  ") + ESP.getSketchSize() + "/" + ESP.getFreeSketchSpace() + ", " + ESP.getSketchMD5());
+#elif defined(ESP32)
+  Serial.println(String("Flash:    ") + ESP.getFlashChipSize() / 1024 + "K");
+  Serial.println(String("ESP sdk:  ") + ESP.getSdkVersion());
+  Serial.println(String("Chip rev: ") + ESP.getChipRevision());
+#endif
+  Serial.println(String("Free mem: ") + ESP.getFreeHeap());
+  Serial.println("--------------------------");
+}
+
+bool Ota::parseURL(String url, String& protocol, String& host, int& port, String& uri)
+{
+  int index = url.indexOf(':');
+  if(index < 0) {
+    return false;
+  }
+
+  protocol = url.substring(0, index);
+  url.remove(0, (index + 3)); // remove protocol part
+
+  index = url.indexOf('/');
+  String server = url.substring(0, index);
+  url.remove(0, index);       // remove server part
+
+  index = server.indexOf(':');
+  if(index >= 0) {
+    host = server.substring(0, index);          // hostname
+    port = server.substring(index + 1).toInt(); // port
+  } else {
+    host = server;
+    if (protocol == "http") {
+      port = 80;
+    } else if (protocol == "https") {
+      port = 443;
+    }
+  }
+
+  if (url.length()) {
+    uri = url;
+  } else {
+    uri = "/";
+  }
+  return true;
 }
 
 

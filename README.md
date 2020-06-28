@@ -15,3 +15,7 @@ wget --server-response http://localhost:8080/firmware/1/smartbike.ino.esp32.bin
 - [How to start article in russian](http://www.bizkit.ru/2019/02/05/11989/)
 - [LiliGo T-CALL-SIM800L Project Repo](https://github.com/Xinyuan-LilyGO/LilyGo-T-Call-SIM800L/issues/29)
 - [пример что можно использовать для управления питанием.](https://gist.github.com/me-no-dev/)
+
+## Run on production
+
+> forever start dist
