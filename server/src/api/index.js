@@ -28,8 +28,10 @@ export default ({ config, db }) => {
 	api.post('/status/', (req, res) => {
 		console.log(req.body);
 		db.query(
-			'INSERT INTO `status` (`timestamp`, power_source, battery_status, battery) VALUES (now(), ?, ?, ?)',
-			[req.body.powerSource, req.body.batteryStatus, req.body.battery],
+			'INSERT INTO `status` (`timestamp`, device_id, power_source, battery_status, battery, battery_info) ' +
+            'VALUES (now(), ?, ?, ?, ?, ?)',
+			[req.body.deviceID, req.body.powerSource, req.body.batteryStatus,
+                req.body.battery, JSON.stringify(req.body.batteryInfo)],
 			(err, result) => {
 				if (err) {
 					console.log(err);

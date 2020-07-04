@@ -8,6 +8,8 @@
 #include "./MobileModem.h"
 #include "utilities.h"
 
+#define DEBUG_PRINT(...) { SerialMon.print(millis()); SerialMon.print(" - "); SerialMon.println(__VA_ARGS__); }
+#define DEBUG_FATAL(...) { SerialMon.print(millis()); SerialMon.print(" - FATAL: "); SerialMon.println(__VA_ARGS__); delay(10000); ESP.restart(); }
 
 // TTGO T-Call pins
 #define MODEM_RST            5
@@ -77,6 +79,16 @@ void MobileModem::setup() {
   if (strlen(simPIN) && modem->getSimStatus() != 3) {
     modem->simUnlock(simPIN);
   }
+
+  DEBUG_PRINT(F("Waiting for network..."));
+  if (!modem->waitForNetwork(240000L)) {
+    DEBUG_FATAL(F("Network failed to connect"));
+  }
+
+  DEBUG_PRINT(F("Connecting to GPRS"));
+  if (!modem->gprsConnect(apn, gprsUser, gprsPass)) {
+    DEBUG_FATAL(F("APN failed to connect"));
+  }
 }
 
 TinyGsm *MobileModem::getModem() {
@@ -90,18 +102,13 @@ void MobileModem::httpPost(
   int port
 ) {
   unsigned long num = 0;
-  SerialMon.print("Connecting to APN: ");
-  SerialMon.print(apn);
-  if (!modem->gprsConnect(apn, gprsUser, gprsPass)) {
-    SerialMon.println(" fail");
-  } else {
-    SerialMon.println(" OK");
+  SerialMon.println(" OK");
 
-    SerialMon.print("Connecting to ");
-    SerialMon.print(server);
-    if (!client->connect(server, port)) {
+  SerialMon.print("Connecting to ");
+  SerialMon.print(server);
+  if (!client->connect(server, port)) {
       SerialMon.println(" fail");
-    } else {
+  } else {
       SerialMon.println(" OK");
 
       // Making an HTTP POST request
@@ -135,9 +142,6 @@ void MobileModem::httpPost(
       // Close client and disconnect
       client->stop();
       SerialMon.println(F("Server disconnected"));
-      modem->gprsDisconnect();
-      SerialMon.println(F("GPRS disconnected"));
-    }
   }
 }
 
@@ -150,16 +154,13 @@ String MobileModem::httpGet(
   inputBuffer[num] = 0;
   SerialMon.print("Connecting to APN: ");
   SerialMon.print(apn);
-  if (!modem->gprsConnect(apn, gprsUser, gprsPass)) {
-    SerialMon.println(" fail");
-  } else {
-    SerialMon.println(" OK");
+  SerialMon.println(" OK");
 
-    SerialMon.print("Connecting to ");
-    SerialMon.print(server);
-    if (!client->connect(server, port)) {
+  SerialMon.print("Connecting to ");
+  SerialMon.print(server);
+  if (!client->connect(server, port)) {
       SerialMon.println(" fail");
-    } else {
+  } else {
       SerialMon.println(" OK");
 
       // Making an HTTP POST request
@@ -203,14 +204,13 @@ String MobileModem::httpGet(
       // Close client and disconnect
       client->stop();
       SerialMon.println(F("Server disconnected"));
-      modem->gprsDisconnect();
-      SerialMon.println(F("GPRS disconnected"));
-    }
   }
   return String(inputBuffer);
 }
 
 void MobileModem::sleepMode() {
+    modem->gprsDisconnect();
+    SerialMon.println(F("GPRS disconnected"));
     SerialMon.println(F("Going to Sleep Mode"));
     modem->sendAT(GF("AT+CSCLK=2"));
     modem->waitResponse();

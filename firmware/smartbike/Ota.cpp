@@ -51,6 +51,11 @@ void Ota::checkUpdates() {
   if (ver != FIRMWARE_VERSION) {
     SerialMon.println("Found new firmware!");
     String updateUrl = OTA_URL + String(ver) + "/smartbike.ino.esp32.bin";
+    SerialMon.println(updateUrl);
+
+    DEBUG_PRINT(F("Starting OTA update in 10 seconds..."));
+    delay(10000);
+    
     this->startOtaUpdate(updateUrl);
   } else {
     SerialMon.println("No new firmware found");
@@ -144,7 +149,7 @@ void Ota::startOtaUpdate(const String& ota_url)
   while (client->connected() && written < contentLength) {
     timeout = millis();
     while (client->connected() && !client->available()) {
-      delay(1);
+      delay(3);
       if (millis() - timeout > 100000L) {
         DEBUG_FATAL("Timeout");
       }

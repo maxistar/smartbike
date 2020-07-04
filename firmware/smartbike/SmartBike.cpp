@@ -7,6 +7,7 @@
 #include "SmartBike.h"
 #include "PowerSupply.h"
 #include "MobileModem.h"
+#include "GPSTracker.h"
 #include "Ota.h"
 
 #include "config_common.h"
@@ -21,16 +22,16 @@ const char resource[] = "/api/status/"; // resource path, for example: /post-dat
 const int  port = EXTERNAL_URL_PORT;    // server port number
 
 
-
 PowerSupply powerSupply = PowerSupply();
 MobileModem mobileModem = MobileModem();
 Ota ota = Ota(&mobileModem);
+GPSTracker gpsTracker = GPSTracker(); 
 
 /* Conversion factor for micro seconds to seconds */
 #define uS_TO_S_FACTOR 1000000
 
 /* Time ESP32 will go to sleep (in seconds) 600 seconds = 10 minutes */
-#define TIME_TO_SLEEP  60
+#define TIME_TO_SLEEP  600
 
 
 void sendState() {
@@ -38,10 +39,12 @@ void sendState() {
   bool full = powerSupply.isBatteryFull();
 
   // Prepare your HTTP POST request data (Temperature in Celsius degrees)
-  String httpRequestData = "{\"powerSource\":\"" + String(usb ? "USB" : "BATTERY")
-                         + "\",\"batteryStatus\":\"" + String(full ? "CHARGED" : (usb ? "CHARGING" : "DISCHARGING"))
-                         + "\",\"battery\":\"" + String(powerSupply.getBatteryPercentage()) 
-                         + "\"}";
+  String httpRequestData = String("{")
+                         + "\"powerSource\":\"" + String(usb ? "USB" : "BATTERY") + "\","
+                         + "\"batteryStatus\":\"" + String(full ? "CHARGED" : (usb ? "CHARGING" : "DISCHARGING")) + "\","
+                         + "\"battery\":\"" + String(powerSupply.getBatteryPercentage()) + "\","
+                         + "\"batteryInfo\":\"" + powerSupply.getBatteryDebug() + "\"" 
+                         + "}";
 
   mobileModem.httpPost(httpRequestData, server, resource, port);
 
@@ -54,6 +57,9 @@ void checkNewFirmware() {
 }
 
 
+/**
+ * Setup
+ */
 void SmartBike::setup()
 {
   // Set serial monitor debugging window baud rate to 115200
@@ -69,18 +75,25 @@ void SmartBike::setup()
 
   checkNewFirmware(); 
 
+  gpsTracker.setup();
+
   // Configure the wake up source as timer wake up
   esp_sleep_enable_timer_wakeup(TIME_TO_SLEEP * uS_TO_S_FACTOR);
 }
 
+/**
+ * Loop
+ */
 void  SmartBike::loop()
 {
   sendState();
+  gpsTracker.loop();
 
   mobileModem.sleepMode();
   
   // Put ESP32 into deep sleep mode (with timer wake up)
   esp_deep_sleep_start();
+  //delay(1000);
 };
 
 #endif  // FIRMWARE_SMARTBIKE_SMARTBIKE_CPP_

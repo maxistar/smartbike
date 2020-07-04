@@ -13,6 +13,7 @@ class PowerSupply {
   bool getPowerSource();
   bool isBatteryFull();
   uint8_t getBatteryPercentage();
+  String getBatteryDebug();
 };
 
 
