@@ -102,7 +102,7 @@ void MobileModem::httpPost(
   int port
 ) {
   unsigned long num = 0;
-  SerialMon.println(" OK");
+  SerialMon.println(httpRequestData);
 
   SerialMon.print("Connecting to ");
   SerialMon.print(server);

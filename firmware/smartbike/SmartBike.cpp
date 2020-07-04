@@ -40,10 +40,11 @@ void sendState() {
 
   // Prepare your HTTP POST request data (Temperature in Celsius degrees)
   String httpRequestData = String("{")
+                         + "\"deviceID\": 1,"
                          + "\"powerSource\":\"" + String(usb ? "USB" : "BATTERY") + "\","
                          + "\"batteryStatus\":\"" + String(full ? "CHARGED" : (usb ? "CHARGING" : "DISCHARGING")) + "\","
                          + "\"battery\":\"" + String(powerSupply.getBatteryPercentage()) + "\","
-                         + "\"batteryInfo\":\"" + powerSupply.getBatteryDebug() + "\"" 
+                         + "\"batteryInfo\":" + powerSupply.getBatteryDebug() + "" 
                          + "}";
 
   mobileModem.httpPost(httpRequestData, server, resource, port);
