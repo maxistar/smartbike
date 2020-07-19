@@ -160,6 +160,7 @@ void Ota::startOtaUpdate(const String& ota_url)
 
     Update.write(buff, len);
     written += len;
+    delay(10);
 
     int newProgress = (written*100)/contentLength;
     if (newProgress - progress >= 5 || newProgress == 100) {

@@ -1,3 +1,3 @@
 //common configuration paramenters
 
-#define FIRMWARE_VERSION 3
+#define FIRMWARE_VERSION 4
