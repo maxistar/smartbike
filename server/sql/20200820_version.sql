@@ -1,0 +1,1 @@
+ALTER TABLE `status` ADD `version` INT NULL AFTER `device_id`;
