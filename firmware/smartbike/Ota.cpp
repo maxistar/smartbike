@@ -149,14 +149,17 @@ void Ota::startOtaUpdate(const String& ota_url)
   while (client->connected() && written < contentLength) {
     timeout = millis();
     while (client->connected() && !client->available()) {
-      delay(3);
-      if (millis() - timeout > 100000L) {
+      delay(1);
+      if (millis() - timeout > 10000L) {
         DEBUG_FATAL("Timeout");
       }
     }
 
     int len = client->read(buff, sizeof(buff));
-    if (len <= 0) continue;
+    if (len <= 0) {
+      SerialMon.println("len <= 0 could it be a problem?");
+      continue;
+    }
 
     Update.write(buff, len);
     written += len;

@@ -3,6 +3,8 @@
 
 // Copyright 2020 Max Starikov
 
+#include <WiFi.h>
+
 #include "./Arduino.h"
 #include "SmartBike.h"
 #include "PowerSupply.h"
@@ -29,9 +31,6 @@ GPSTracker gpsTracker = GPSTracker();
 
 /* Conversion factor for micro seconds to seconds */
 #define uS_TO_S_FACTOR 1000000
-
-/* Time ESP32 will go to sleep (in seconds) 600 seconds = 10 minutes */
-#define TIME_TO_SLEEP  600
 
 
 void sendState() {
@@ -68,16 +67,18 @@ void SmartBike::setup()
 
   powerSupply.setup();
 
+  WiFi.mode(WIFI_MODE_NULL);
+
   // Keep power when running from battery
   bool isOk = powerSupply.setPowerBoostKeepOn(1);
   SerialMon.println(String("IP5306 KeepOn ") + (isOk ? "OK" : "FAIL"));
 
+  gpsTracker.setup();
   mobileModem.setup();
+  
 
   checkNewFirmware(); 
-
-  gpsTracker.setup();
-
+  
   // Configure the wake up source as timer wake up
   esp_sleep_enable_timer_wakeup(TIME_TO_SLEEP * uS_TO_S_FACTOR);
 }
@@ -88,10 +89,15 @@ void SmartBike::setup()
 void  SmartBike::loop()
 {
   sendState();
+  
   gpsTracker.loop();
 
+  delay(1000);
   mobileModem.sleepMode();
-  
+  delay(1000);
+
+  gpsTracker.forceSleep();
+
   // Put ESP32 into deep sleep mode (with timer wake up)
   esp_deep_sleep_start();
   //delay(1000);

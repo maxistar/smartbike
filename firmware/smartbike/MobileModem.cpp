@@ -211,7 +211,7 @@ String MobileModem::httpGet(
 void MobileModem::sleepMode() {
     modem->gprsDisconnect();
     SerialMon.println(F("GPRS disconnected"));
-    SerialMon.println(F("Going to Sleep Mode"));
+    SerialMon.println(F("Set Modem to Sleep Mode"));
     modem->sendAT(GF("AT+CSCLK=2"));
     modem->waitResponse();
     SerialMon.println(F("Sleep Mode sent"));

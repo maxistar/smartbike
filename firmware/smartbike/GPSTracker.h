@@ -12,6 +12,7 @@ class GPSTracker {
   GPSTracker();
   void setup();
   void loop();
+  void forceSleep();
 };
 
 #endif  // FIRMWARE_SMARTBIKE_GPSTRACKER_H_
