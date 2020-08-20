@@ -40,6 +40,7 @@ void sendState() {
   // Prepare your HTTP POST request data (Temperature in Celsius degrees)
   String httpRequestData = String("{")
                          + "\"deviceID\": 1,"
+                         + "\"version\": " + String(FIRMWARE_VERSION) + ","
                          + "\"powerSource\":\"" + String(usb ? "USB" : "BATTERY") + "\","
                          + "\"batteryStatus\":\"" + String(full ? "CHARGED" : (usb ? "CHARGING" : "DISCHARGING")) + "\","
                          + "\"battery\":\"" + String(powerSupply.getBatteryPercentage()) + "\","
