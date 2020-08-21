@@ -24,3 +24,5 @@ wget --server-response http://localhost:8080/firmware/2/smartbike.ino.esp32.bin
 ## New firmware upload
 Export new firmware
 Move to the new folder
+
+##Run tests

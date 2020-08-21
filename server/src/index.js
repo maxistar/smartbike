@@ -5,7 +5,8 @@ import morgan from 'morgan';
 import bodyParser from 'body-parser';
 import initializeDb from './db';
 import middleware from './middleware';
-import api from './api';
+import api0 from './api/v0';
+import api1 from './api/v1';
 import config from './config.json';
 import connection from 'mysql';
 import dotenv from 'dotenv';
@@ -46,8 +47,11 @@ initializeDb(connection,(db) => {
         res.setHeader('MD5', md5File.sync(path))
     }
 
-    // api router
-    app.use('/api', api({ config, db }));
+    // api router for api v0
+    app.use('/api', api0({ config, db }));
+
+    // api router for api v1
+    app.use('/api/1', api1({ config, db }));
 
     app.server.listen(process.env.PORT || config.port, () => {
         console.log(`Started on port ${app.server.address().port}`);
