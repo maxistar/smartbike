@@ -26,3 +26,9 @@ Export new firmware
 Move to the new folder
 
 ##Run tests
+
+
+Run emulator:
+emulator -avd Nexus_S_API_28
+yarn start
+yarn android
