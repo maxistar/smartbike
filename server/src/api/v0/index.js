@@ -25,6 +25,20 @@ export default ({ config, db }) => {
             });
     });
 
+    api.get('/info/latest/', (req, res) => {
+        db.query(
+            'SELECT * FROM `status` '
+            + 'ORDER BY `id` DESC LIMIT 1',
+            (err, rows) => {
+                if (err) {
+                    console.log(err);
+                    return res.json({ status:"error"});
+                }
+                res.json(rows[0]);
+            }
+        )
+    });
+
     api.post('/status/', (req, res) => {
         console.log(req.body);
         db.query(
