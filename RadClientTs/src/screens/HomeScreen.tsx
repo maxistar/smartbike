@@ -1,12 +1,14 @@
-import {Text, View} from "react-native";
+import {Text, View, Button} from "react-native";
 import * as React from "react";
 
-function HomeScreen() {
+function HomeScreen({loading, timestamp, battery, onRefresh}) {
     return (
         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-            <Text>Home!</Text>
+            {loading && (<Text>Loading</Text>)}
+            {!loading && (<Text>Time: {timestamp}, battery: {battery}</Text>)}
+            <Button title="Refresh" onPress={onRefresh} />
         </View>
     );
 }
 
-export default HomeScreen;
+export { HomeScreen };

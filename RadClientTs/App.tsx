@@ -3,7 +3,7 @@ import { Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import HomeScreen from './src/screens/HomeScreen'
+import { HomeScreenContainer } from './src/screens/HomeScreenContainer'
 import SettingsScreen from './src/screens/SettingsScreen'
 import MapScreen from './src/screens/MapScreen'
 import AboutScreen from './src/screens/AboutScreen'
@@ -15,7 +15,7 @@ function MainScreen() {
     return (
         <Tab.Navigator initialRouteName="Home">
             <Tab.Screen name="Map" component={MapScreen} />
-            <Tab.Screen name="Home" component={HomeScreen} />
+            <Tab.Screen name="Home" component={HomeScreenContainer} />
             <Tab.Screen name="Settings" component={SettingsScreen} />
         </Tab.Navigator>
     );
