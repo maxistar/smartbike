@@ -7,6 +7,7 @@ import { HomeScreenContainer } from './src/screens/HomeScreenContainer'
 import SettingsScreen from './src/screens/SettingsScreen'
 import MapScreen from './src/screens/MapScreen'
 import AboutScreen from './src/screens/AboutScreen'
+//import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const Tab = createBottomTabNavigator();
 const Drawer = createDrawerNavigator();

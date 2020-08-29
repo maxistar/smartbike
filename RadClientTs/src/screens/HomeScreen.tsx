@@ -1,5 +1,6 @@
-import {Text, View, Button} from "react-native";
+import {Text, View, Button, Image} from "react-native";
 import * as React from "react";
+//import image from "../../bike.png";
 
 function HomeScreen({loading, timestamp, battery, onRefresh}) {
     return (
