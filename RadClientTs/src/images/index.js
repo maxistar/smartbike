@@ -1,0 +1,1 @@
+export const bike = require('./bike.png');

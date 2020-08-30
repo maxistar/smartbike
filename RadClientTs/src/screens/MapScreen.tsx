@@ -1,11 +1,17 @@
-import {Text, View} from "react-native";
-import * as React from "react";
+import React, { useState } from "react";
+
+import MapView from "react-native-maps";
 
 function MapScreen() {
     return (
-        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-            <Text>Map</Text>
-        </View>
+        <MapView style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
+            initialRegion={{
+                latitude: 52.520008,
+                longitude: 13.404954,
+                latitudeDelta: 0.0922,
+                longitudeDelta: 0.0421,
+            }}
+        />
     );
 }
 
