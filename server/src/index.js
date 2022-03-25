@@ -8,7 +8,7 @@ import middleware from './middleware';
 import api0 from './api/v0';
 import api1 from './api/v1';
 import config from './config.json';
-import connection from 'mysql';
+import connection from 'mysql2';
 import dotenv from 'dotenv';
 import md5File from 'md5-file'
 dotenv.config();
