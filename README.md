@@ -3,9 +3,20 @@
 LiliGo T-CALL-SIM800L module can be used or this project.
 
 # Post Status
-curl -X POST http://localhost:8080/api/status/ -H "Content-Type: application/json" -d '{"deviceID": 1, "powerSource":"USB", "batteryStatus":"CHARGING", "battery":44, "batteryInfo":{"test":"value"}, "version":1}'
 
-#get firmware                                   
+## Post to local server
+```shell
+curl -X POST http://localhost:8080/api/status/ -H "Content-Type: application/json" -d '{"deviceID": 1, "powerSource":"USB", "batteryStatus":"CHARGING", "battery":44, "batteryInfo":{"test":"value"}, "version":1}'
+```
+
+## Post to remove server
+```shell
+curl -X POST http://bike.x.maxistar.me/api/status/ -H "Content-Type: application/json" -d '{"deviceID": 1, "powerSource":"USB", "batteryStatus":"CHARGING", "battery":44, "batteryInfo":{"test":"value"}, "version":1}'
+```
+
+
+
+# get firmware                                   
 wget --server-response http://localhost:8080/firmware/2/smartbike.ino.esp32.bin
 
 
@@ -25,7 +36,7 @@ wget --server-response http://localhost:8080/firmware/2/smartbike.ino.esp32.bin
 Export new firmware
 Move to the new folder
 
-##Run tests
+## Run tests
 
 
 Run emulator:

@@ -39,7 +39,7 @@ GPSTracker::GPSTracker() {
 
 // Send a byte array of UBX protocol to the GPS
 void sendUBX(uint8_t *MSG, uint8_t len) {
-  for(int i=0; i<len; i++) {
+  for(int i= 0; i < len; i++) {
     SerialGSM.write(MSG[i]);
     Serial.print(MSG[i], HEX);
   }
@@ -78,7 +78,7 @@ boolean getUBX_ACK(uint8_t *MSG) {
   ackPacket[9] = 0;   // CK_B
 
   // Calculate the checksums
-  for (uint8_t i=2; i<8; i++) {
+  for (uint8_t i = 2; i < 8; i++) {
     ackPacket[8] = ackPacket[8] + ackPacket[i];
     ackPacket[9] = ackPacket[9] + ackPacket[8];
   }
@@ -106,8 +106,7 @@ boolean getUBX_ACK(uint8_t *MSG) {
       if (b == ackPacket[ackByteID]) {
         ackByteID++;
         SerialGSM.print(b, HEX);
-      }
-      else {
+      } else {
         ackByteID = 0;  // Reset and look again, invalid order
       }
 
@@ -128,7 +127,8 @@ void GPSTracker::setup() {
 
   //configure module
   gps_set_sucess = 0;
-  while(!gps_set_sucess) {
+  int num_retries = 0;
+  while(!gps_set_sucess && num_retries++ < 5) {
       Serial.write("Try to switch off NMEA\n");
       sendUBX(config1, sizeof(config1)/sizeof(uint8_t));
       gps_set_sucess = getUBX_ACK(config1);

@@ -12,8 +12,13 @@
 #include "GPSTracker.h"
 #include "Ota.h"
 
+#include "soc/soc.h"
+#include "soc/rtc_cntl_reg.h"
+
 #include "config_common.h"
 #include "config_prod.h"
+
+#define MODEM_POWER_ON 23
 
 #define SerialMon Serial
 
@@ -57,12 +62,29 @@ void checkNewFirmware() {
   ota.checkUpdates();
 }
 
+void gotoSleep() {
+  // Configure the wake up source as timer wake up
+  esp_sleep_enable_timer_wakeup(TIME_TO_SLEEP * uS_TO_S_FACTOR);
+  // Put ESP32 into deep sleep mode (with timer wake up)
+
+  digitalWrite(MODEM_POWER_ON, LOW);
+  
+  esp_sleep_pd_config(ESP_PD_DOMAIN_RTC_PERIPH, ESP_PD_OPTION_OFF);
+  esp_sleep_pd_config(ESP_PD_DOMAIN_RTC_FAST_MEM, ESP_PD_OPTION_OFF);
+  esp_sleep_pd_config(ESP_PD_DOMAIN_RTC_SLOW_MEM, ESP_PD_OPTION_OFF);
+  esp_deep_sleep_start();
+}
+
 
 /**
  * Setup
  */
 void SmartBike::setup()
 {
+  WRITE_PERI_REG(RTC_CNTL_BROWN_OUT_REG, 0); //disable brownout detector
+  
+  digitalWrite(MODEM_POWER_ON, HIGH);
+  
   // Set serial monitor debugging window baud rate to 115200
   SerialMon.begin(115200);
 
@@ -79,15 +101,12 @@ void SmartBike::setup()
   
 
   checkNewFirmware(); 
-  
-  // Configure the wake up source as timer wake up
-  esp_sleep_enable_timer_wakeup(TIME_TO_SLEEP * uS_TO_S_FACTOR);
 }
 
 /**
  * Loop
  */
-void  SmartBike::loop()
+void SmartBike::loop()
 {
   sendState();
   
@@ -99,9 +118,9 @@ void  SmartBike::loop()
 
   gpsTracker.forceSleep();
 
-  // Put ESP32 into deep sleep mode (with timer wake up)
-  esp_deep_sleep_start();
-  //delay(1000);
+  delay(1000);
+
+  gotoSleep();
 };
 
 #endif  // FIRMWARE_SMARTBIKE_SMARTBIKE_CPP_
