@@ -17,16 +17,13 @@
 
 // URL to download the firmware from
 
-// Configure TinyGSM library
-#define TINY_GSM_MODEM_SIM800      // Modem is SIM800
-#define TINY_GSM_RX_BUFFER   1024  // Set RX buffer to 1Kb
+#include "config.h"
 
 #include <Wire.h>
-#include <TinyGsmClient.h>
 #include <Update.h>
+#include <TinyGsmClient.h>
 
-#include "config_common.h"
-#include "config_prod.h"
+
 #include "MobileModem.h"
 
 //TinyGsm modem1(SerialAT);
@@ -39,7 +36,8 @@ Ota::Ota(MobileModem *modem) {
 }
 
 void Ota::checkUpdates() {
-  String page = mobileModem->httpGet(server, "/api/firmware/latest/", port);
+  SerialMon.println("check new firmware");
+  String page = mobileModem->httpGet(server, "/api/firmware/latest", port);
   SerialMon.println("====");
   SerialMon.println(page);
   SerialMon.println("====");
@@ -75,20 +73,20 @@ void Ota::startOtaUpdate(const String& ota_url)
 
   Client* client = NULL;
   TinyGsm *modem = mobileModem->getModem();
-  if (protocol == "http") {
+  //if (protocol == "http") {
     
     client = new TinyGsmClient(*modem);
     if (!client->connect(host.c_str(), port)) {
       DEBUG_FATAL(F("Client not connected"));
     }
-  } else if (protocol == "https") {
-    client = new TinyGsmClientSecure(*modem);
-    if (!client->connect(host.c_str(), port)) {
-      DEBUG_FATAL(F("Client not connected"));
-    }
-  } else {
-    DEBUG_FATAL(String("Unsupported protocol: ") + protocol);
-  }
+  //} else if (protocol == "https") {
+  //  client = new TinyGsmClientSecure(*modem);
+  //  if (!client->connect(host.c_str(), port)) {
+  //    DEBUG_FATAL(F("Client not connected"));
+  //  }
+  //} else {
+  //  DEBUG_FATAL(String("Unsupported protocol: ") + protocol);
+  //}
   
   DEBUG_PRINT(String("Requesting ") + url);
 
@@ -111,7 +109,7 @@ void Ota::startOtaUpdate(const String& ota_url)
   while (client->available()) {
     String line = client->readStringUntil('\n');
     line.trim();
-    //SerialMon.println(line);    // Uncomment this to show response headers
+    SerialMon.println(line);    // Uncomment this to show response headers
     line.toLowerCase();
     if (line.startsWith("content-length:")) {
       contentLength = line.substring(line.lastIndexOf(':') + 1).toInt();

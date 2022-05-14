@@ -1,0 +1,11 @@
+#ifndef FIRMWARE_SMARTBIKE_CONFIG_SIM7000_H_
+#define FIRMWARE_SMARTBIKE_CONFIG_SIM7000_H_
+
+#define TINY_GSM_MODEM_SIM7000
+#define TINY_GSM_RX_BUFFER 1024 // Set RX buffer to 1Kb
+#define SerialAT Serial1
+
+// set GSM PIN, if any
+#define GSM_PIN ""
+
+#endif  FIRMWARE_SMARTBIKE_CONFIG_SIM7000_H_
