@@ -1,7 +1,7 @@
 #ifndef FIRMWARE_SMARTBIKE_CONFIG_H_
 #define FIRMWARE_SMARTBIKE_CONFIG_H_
 
-#define FIRMWARE_VERSION 11
+#define FIRMWARE_VERSION 12
 
 #include "config_sim7000.h"
 #include "config_prod.h"

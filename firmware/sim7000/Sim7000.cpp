@@ -41,7 +41,7 @@ const int  port = EXTERNAL_URL_PORT;    // server port number
 // TinyGsmClient client(modem);
 
 #define uS_TO_S_FACTOR 1000000ULL  // Conversion factor for micro seconds to seconds
-#define TIME_TO_SLEEP  60 * 30          // Time ESP32 will go to sleep (in seconds)
+#define TIME_TO_SLEEP  60 * 5          // Time ESP32 will go to sleep (in seconds)
 
 #define UART_BAUD   9600
 #define PIN_DTR     25

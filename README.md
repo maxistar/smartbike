@@ -28,7 +28,7 @@ upload new firmware
 
 http://bike.x.maxistar.me/firmware/11/sim7000.ino.esp32.bin
 
-scp /home/maxim/projects/smartbike/fahrrad-tracker/firmware/sim7000/sim7000.ino.esp32.bin maxim@maxistar.ru:/home/maxim/projects/fahrrad-tracker/server/web/firmware/11
+scp /home/maxim/projects/smartbike/fahrrad-tracker/firmware/sim7000/sim7000.ino.esp32.bin maxim@maxistar.ru:/home/maxim/projects/fahrrad-tracker/server/web/firmware/12
 
 
 ## Links ##
