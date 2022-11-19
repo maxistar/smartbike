@@ -14,6 +14,9 @@ curl -X POST http://localhost:8080/api/status/ -H "Content-Type: application/jso
 curl -X POST http://bike.x.maxistar.me/api/status/ -H "Content-Type: application/json" -d '{"deviceID": 1, "powerSource":"USB", "batteryStatus":"CHARGING", "battery":44, "batteryInfo":{"test":"value"}, "version":1}'
 ```
 
+## get latest status
+http://bike.x.maxistar.me/api/info/latest
+
 # get firmware version
 http://bike.x.maxistar.me/api/firmware/latest
 
@@ -24,7 +27,8 @@ upload new firmware
 1. create folder on the server
 2. export firmware
 3. upload firmware
-   scp /home/maxim/projects/smartbike/fahrrad-tracker/firmware/sim7000/sim7000.ino.esp32.bin /home/maxim/projects/fahrrad-tracker/server/web/firmware/14
+   scp /home/maxim/projects/smartbike/fahrrad-tracker/firmware/sim7000/sim7000.ino.esp32.bin maxistar.ru:/home/maxim/projects/fahrrad-tracker/server/web/firmware/14
+4. in the server `insert into firmware VALUES (15, 15, 15, 15, 15);`
 
 http://bike.x.maxistar.me/firmware/11/sim7000.ino.esp32.bin
 
