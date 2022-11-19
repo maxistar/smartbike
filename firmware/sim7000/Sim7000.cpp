@@ -41,7 +41,7 @@ const int  port = EXTERNAL_URL_PORT;    // server port number
 // TinyGsmClient client(modem);
 
 #define uS_TO_S_FACTOR 1000000ULL  // Conversion factor for micro seconds to seconds
-#define TIME_TO_SLEEP  60 * 60          // 1 hour Time ESP32 will go to sleep (in seconds)
+#define TIME_TO_SLEEP  10 * 60          // 10 minutes, time ESP32 will go to sleep (in seconds)
 
 #define UART_BAUD   9600
 #define PIN_DTR     25
@@ -148,15 +148,20 @@ void Sim7000::loop()
   // CMD:AT+SGPIO=0,4,1,1
   // Only in version 20200415 is there a function to control GPS power
   modem->sendAT("+SGPIO=0,4,1,1");
-
+  int attemptCounter = 1;
   modem->enableGPS();
   while (1) {
     if (modem->getGPS(&latitude, &longitude)) {
       SerialMon.printf("lat:%f lon:%f\n", latitude, longitude);
       break;
     } else {
+      attemptCounter++;      
       SerialMon.print("getGPS ");
       SerialMon.println(millis());
+      if (attemptCounter > 100) {
+        // TODO can we test this?
+        break;
+      }
     }
     delay(2000);
   }
