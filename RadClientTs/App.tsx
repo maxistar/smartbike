@@ -14,14 +14,10 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 
 const Tab = createBottomTabNavigator();
 const Drawer = createDrawerNavigator();
+/**
+ * 
 
-function MainScreen() {
-    return (
-        <Tab.Navigator initialRouteName="Home"
-
-
-        >
-            <Tab.Screen name="Map"
+            <!--<Tab.Screen name="Map"
                 component={MapScreen}
                 options={{
                     tabBarLabel: 'Map',
@@ -29,7 +25,16 @@ function MainScreen() {
                         <MaterialCommunityIcons name="map" color={color} size={size} />
                     ),
                 }}
-            />
+            />-->
+
+ */
+function MainScreen() {
+    return (
+        <Tab.Navigator initialRouteName="Home"
+
+
+        >
+
             <Tab.Screen
                 name="Home" component={HomeScreenContainer}
                 options={{
