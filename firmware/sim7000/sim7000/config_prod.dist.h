@@ -5,6 +5,8 @@
  * Here located production configs
  */
 
+#define FIRMWARE_VERSION 20
+
 #define EXTERNAL_URL "bike.x.maxistar.me"
 #define EXTERNAL_URL_PORT 80
 
