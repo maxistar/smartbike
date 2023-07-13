@@ -1,2 +1,3 @@
 .idea
 /server/.env
+/firmware/sim7000/sim7000/config_prod.h

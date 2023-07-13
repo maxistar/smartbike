@@ -41,7 +41,6 @@ const int  port = EXTERNAL_URL_PORT;    // server port number
 // TinyGsmClient client(modem);
 
 #define uS_TO_S_FACTOR 1000000ULL  // Conversion factor for micro seconds to seconds
-#define TIME_TO_SLEEP  60 * 60          // 10 minutes, time ESP32 will go to sleep (in seconds)
 
 #define UART_BAUD   9600
 #define PIN_DTR     25
@@ -63,10 +62,10 @@ float latitude = 0;
 
 String getBatteryDebug() {
     char b[1000];
-  
+
     sprintf(
-      b, 
-      "{\"latitude\": \"%f\",\n\"longitude\": \"%f\",\n\"battery\": \"%f\",\n\"solarBattery\": \"%f\"}",  
+      b,
+      "{\"latitude\": \"%f\",\n\"longitude\": \"%f\",\n\"battery\": \"%f\",\n\"solarBattery\": \"%f\"}",
       latitude, longitude, batteryVoltage, solarVoltage
     );
 
@@ -81,7 +80,7 @@ void sendState() {
                          + "\"powerSource\":\"" + String("BATTERY") + "\","
                          + "\"batteryStatus\":\"" + String("CHARGING") + "\","
                          + "\"battery\":\"" + String(-1) + "\","
-                         + "\"batteryInfo\":" + getBatteryDebug() + "" 
+                         + "\"batteryInfo\":" + getBatteryDebug() + ""
                          + "}";
 
     mobileModem.httpPost(httpRequestData, server, resource, port);
@@ -124,11 +123,11 @@ void Sim7000::setup()
 
     mobileModem.setup();
     SerialMon.println("\nInit Completed...");
-  
+
     SerialMon.println("\nconnect...");
     mobileModem.connectNetwork();
-    
-    checkNewFirmware(); 
+
+    checkNewFirmware();
 }
 
 /**
@@ -155,7 +154,7 @@ void Sim7000::loop()
       SerialMon.printf("lat:%f lon:%f\n", latitude, longitude);
       break;
     } else {
-      attemptCounter++;      
+      attemptCounter++;
       SerialMon.print("getGPS ");
       SerialMon.println(millis());
       if (attemptCounter > 100) {
