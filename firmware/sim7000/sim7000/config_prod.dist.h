@@ -7,6 +7,8 @@
 
 #define FIRMWARE_VERSION 20
 
+#define DEVICE_ID 1
+
 #define EXTERNAL_URL "bike.x.maxistar.me"
 #define EXTERNAL_URL_PORT 80
 

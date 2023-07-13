@@ -75,8 +75,8 @@ String getBatteryDebug() {
 void sendState() {
     // Prepare your HTTP POST request data (Temperature in Celsius degrees)
     String httpRequestData = String("{")
-                         + "\"deviceID\": 1,"
-                         + "\"version\": " + String(1) + ","
+                         + "\"deviceID\": " + DEVICE_ID + ","
+                         + "\"version\": " + FIRMWARE_VERSION + ","
                          + "\"powerSource\":\"" + String("BATTERY") + "\","
                          + "\"batteryStatus\":\"" + String("CHARGING") + "\","
                          + "\"battery\":\"" + String(-1) + "\","
