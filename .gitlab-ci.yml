@@ -1,11 +1,12 @@
 image: maxistar/arduino-esp32-ci
 stages:
   - build
-  - tags:
-    - fomalgaut
 
 build:
   stage: build
+  tags:
+    - fomalgaut
+
   script:
     - echo "Building"
     - cd firmware/sim7000
