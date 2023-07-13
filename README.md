@@ -58,3 +58,31 @@ Run emulator:
 emulator -avd Nexus_S_API_28
 yarn start
 yarn android
+
+## Docker
+
+```
+cd docker
+docker build -t arduino01 .
+
+docker run -it --rm -v "$sketch_folder":/usr/src/sketch arduino01 ls
+
+docker run -it --rm -v "$(pwd)":/usr/src/sketch arduino01 bash \
+-c 'arduino-cli core update-index --additional-urls="https://raw.githubusercontent.com/espressif/arduino-esp32/gh-pages/package_esp32_index.json" && arduino-cli core install esp32:esp32 --additional-urls="https://raw.githubusercontent.com/espressif/arduino-esp32/gh-pages/package_esp32_index.json"'
+
+
+```
+
+
+
+
+
+```
+cd firmware
+docker run -it --rm -v "$(pwd)":/usr/src/sketch maxistar/arduino-esp32
+```
+
+using on mac
+````
+docker build -t maxistar/arduino-esp32-ci --platform linux/amd64 .
+````
