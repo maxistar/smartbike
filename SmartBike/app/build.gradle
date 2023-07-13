@@ -2,6 +2,10 @@ plugins {
     id 'com.android.application'
 }
 
+Properties properties = new Properties()
+properties.load(project.rootProject.file('api.properties').newDataInputStream())
+def backendURL = properties.getProperty('backendURL')
+
 android {
     compileSdk 31
 
@@ -13,8 +17,9 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-    }
 
+        buildConfigField "String", "API_URL", "\"$backendURL\""
+    }
     buildTypes {
         release {
             minifyEnabled false

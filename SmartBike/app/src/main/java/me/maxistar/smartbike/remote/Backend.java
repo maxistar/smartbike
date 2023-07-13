@@ -11,6 +11,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import me.maxistar.smartbike.BuildConfig;
 import me.maxistar.smartbike.ui.home.HomeViewModel;
 
 public class Backend {
@@ -24,7 +25,7 @@ public class Backend {
     public void requestServer() {
         DataModel data = new DataModel();
         model.setText(data);
-        new RetrieveStatusTask().execute("https://bike.x.maxistar.me/api/info/latest");
+        new RetrieveStatusTask().execute(BuildConfig.API_URL + "/api/info/latest");
     }
 
     class RetrieveStatusTask extends AsyncTask<String, Void, DataModel> {
@@ -37,7 +38,7 @@ public class Backend {
                 data.dateTime = result.getString("timestamp");
                 String jsonData = result.getString("battery_info");
                 JSONObject batteryInfo = new JSONObject(jsonData);
-                data.longitude = batteryInfo.getDouble("longiture");
+                data.longitude = batteryInfo.getDouble("longitude");
                 data.latitude = batteryInfo.getDouble("latitude");
                 data.batteryValue = batteryInfo.getDouble("battery");
                 data.solarBattery = batteryInfo.getDouble("solarBattery");
