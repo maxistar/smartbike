@@ -1,0 +1,9 @@
+sketch: sim7000
+version: 1.0.0
+
+target:
+  core: esp32:esp32
+  board: esp32:esp32:esp32
+
+libraries:
+    - TinyGSM==0.11.7
