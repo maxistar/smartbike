@@ -66,7 +66,7 @@ String getBatteryDebug() {
   
     sprintf(
       b, 
-      "{\"latitude\": \"%f\",\n\"longiture\": \"%f\",\n\"battery\": \"%f\",\n\"solarBattery\": \"%f\"}",  
+      "{\"latitude\": \"%f\",\n\"longitude\": \"%f\",\n\"battery\": \"%f\",\n\"solarBattery\": \"%f\"}",  
       latitude, longitude, batteryVoltage, solarVoltage
     );
 
