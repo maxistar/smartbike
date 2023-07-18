@@ -1,5 +1,12 @@
 image: maxistar/arduino-esp32-ci
 
+before_script:
+  - 'command -v ssh-agent >/dev/null || ( apt-get update -y && apt-get install openssh-client -y )'
+  - eval $(ssh-agent -s)
+  - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+  - mkdir -p ~/.ssh
+  - chmod 700 ~/.ssh
+
 build:
   tags:
     - fomalgaut
@@ -20,5 +27,6 @@ deploy:
     - pushd firmware/sim7000
     - cp sim7000/config_prod.dist.h sim7000/config_prod.h
     - echo $VERSION
+    - echo $SERVER_URL
     - popd
 
