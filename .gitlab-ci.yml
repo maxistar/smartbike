@@ -26,7 +26,7 @@ deploy:
     - echo "Deployment"
     - pushd firmware/sim7000
     - cp sim7000/config_prod.dist.h sim7000/config_prod.h
-    - echo $VERSION
-    - echo $SERVER_URL
+    - echo "$VERSION"
+    - echo "$SERVER_URL"
     - popd
 
