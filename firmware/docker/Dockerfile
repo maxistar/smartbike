@@ -9,4 +9,4 @@ RUN pip install --no-cache-dir pyyaml pyserial
 COPY compile.py /usr/src/app/
 
 WORKDIR /usr/src/sketch
-#CMD [ "python", "-u", "/usr/src/app/compile.py" ]
+CMD [ "python", "-u", "/usr/src/app/compile.py" ]

@@ -51,9 +51,6 @@ def compile_sketch(spec):
     output_path = sketch.split(".")[0]
     if "version" in spec:
         output_path += "_v" + spec["version"].replace(".", "_")
-    build_date = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
-    output_path += "_" + build_date + "Z"
-    output_path += ".bin"
     print(f"Sketch will be compiled to {output_path}...")
 
     success = _compile_arduino_sketch(sketch, board, output_path)
