@@ -29,6 +29,6 @@ deploy:
     - echo "$VERSION"
     - echo "$SERVER_URL"
     - python -u /usr/src/app/compile.py
-    - scp sim7000_v1_0_0/sim7000.ino.bin "$SERVER_URL/home/maxim/projects/fahrrad-tracker/server/web/firmware/$VERSION/smartbike.ino.esp32.bin"
+    - scp sim7000_v1_0_0/sim7000.ino.bin "$SERVER_URL:/home/maxim/projects/fahrrad-tracker/server/web/firmware/$VERSION/smartbike.ino.esp32.bin"
     - popd
 
