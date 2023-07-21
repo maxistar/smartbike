@@ -61,6 +61,8 @@ yarn android
 
 ## Docker
 
+The firmware can be compiled using docker image. At the moment this feature is used only in CI to test the firmware.
+
 ```
 cd docker
 docker build -t arduino01 .
@@ -72,10 +74,6 @@ docker run -it --rm -v "$(pwd)":/usr/src/sketch arduino01 bash \
 
 
 ```
-
-
-
-
 
 ```
 cd firmware
