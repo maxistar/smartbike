@@ -125,7 +125,15 @@ void Sim7000::setup()
     SerialMon.println("\nInit Completed...");
 
     SerialMon.println("\nconnect...");
-    mobileModem.connectNetwork();
+
+    if (!mobileModem.connectNetwork()) {
+        // if we can not connect to the network, the go to sleep and check next cycle
+        TinyGsm *modem = mobileModem.getModem();
+        modem->poweroff();
+        esp_sleep_enable_timer_wakeup(TIME_TO_SLEEP * uS_TO_S_FACTOR);
+        delay(200);
+        esp_deep_sleep_start();
+    }
 
     checkNewFirmware();
 }

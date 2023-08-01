@@ -76,7 +76,7 @@ void MobileModem::setup() {
     do {
         res = modem->setPreferredMode(1);
         delay(500);
-    } while (res != "OK");  
+    } while (res != "OK");
 }
 
 TinyGsm *MobileModem::getModem() {
@@ -130,7 +130,7 @@ void MobileModem::httpPost(
       // Close client and disconnect
       client->stop();
       SerialMon.println(F("Server disconnected"));
-  }  
+  }
 }
 
 String MobileModem::httpGet(
@@ -167,7 +167,7 @@ String MobileModem::httpGet(
         // Print available data (HTTP response from server)
         while (client->available()) {
           char c = client->read();
-          
+
           SerialMon.print(c);
           timeout = millis();
           if (num < INPUT_BUFFER_SIZE && outputStarted) {
@@ -179,7 +179,7 @@ String MobileModem::httpGet(
           lastChars[1] = lastChars[2];
           lastChars[2] = lastChars[3];
           lastChars[3] = c;
-       
+
           if (!outputStarted && bufferPos > 2 && lastChars[0]=='\r' && lastChars[1]=='\n' && lastChars[2]=='\r' && lastChars[3]=='\n') {
             outputStarted = true;
           }
@@ -193,16 +193,16 @@ String MobileModem::httpGet(
       client->stop();
       SerialMon.println(F("Server disconnected"));
   }
-  return String(inputBuffer);  
+  return String(inputBuffer);
 }
 
-void MobileModem::connectNetwork() {
+bool MobileModem::connectNetwork() {
   int counter, lastIndex, numberOfPieces = 24;
   String pieces[24], input;
 
 
   SerialMon.println("send: AT+CGDCONT?");
-  
+
   SerialAT.println("AT+CGDCONT?");
 
   SerialMon.println("delay");
@@ -210,7 +210,7 @@ void MobileModem::connectNetwork() {
   delay(500);
 
   SerialMon.println("after delay");
-  
+
   if (SerialAT.available()) {
     SerialMon.println("SerialAT.available()");
     input = SerialAT.readString();
@@ -259,8 +259,7 @@ void MobileModem::connectNetwork() {
 
   SerialMon.println("\n\n\nWaiting for network...");
   if (!modem->waitForNetwork()) {
-    delay(10000);
-    return;
+    return false;
   }
 
   if (modem->isNetworkConnected()) {
@@ -270,11 +269,10 @@ void MobileModem::connectNetwork() {
   SerialMon.println("\n---Starting GPRS TEST---\n");
   SerialMon.println("Connecting to: " + String(apn));
   if (!modem->gprsConnect(apn, gprsUser, gprsPass)) {
-    delay(10000);
-    return;
+    return false;
   }
 
-  
+
   SerialMon.print("GPRS status: ");
   if (modem->isGprsConnected()) {
     SerialMon.println("connected");
@@ -303,13 +301,11 @@ void MobileModem::connectNetwork() {
     String r = SerialAT.readString();
     SerialMon.println(r);
   }
-
-  SerialMon.println("\n---End of GPRS TEST---\n");
-
+  return true;
 }
 
 void MobileModem::sleepMode() {
-  
+
 }
 
 #endif

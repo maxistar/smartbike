@@ -13,7 +13,7 @@ class MobileModem {
   MobileModem();
   ~MobileModem();
   void setup();
-  void connectNetwork();
+  bool connectNetwork();
   void httpPost(String httpRequestData, const char* server, const char* resource, int port);
   String httpGet(const char* server, const char* resource, int port);
   void sleepMode();

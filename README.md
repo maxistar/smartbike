@@ -76,7 +76,7 @@ docker run -it --rm -v "$(pwd)":/usr/src/sketch arduino01 bash \
 ```
 
 ```
-cd firmware
+cd firmware/sim7000
 docker run -it --rm -v "$(pwd)":/usr/src/sketch maxistar/arduino-esp32
 ```
 
