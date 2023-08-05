@@ -44,7 +44,13 @@ scp /home/maxim/projects/smartbike/fahrrad-tracker/firmware/sim7000/sim7000.ino.
 
 ## Run on production
 
-> forever start dist
+in order to use server part on production you can use [forever](https://www.npmjs.com/package/forever) utility.
+
+> `forever start dist`
+
+check if the service is running:
+
+> `forever list`
 
 
 ## New firmware upload
