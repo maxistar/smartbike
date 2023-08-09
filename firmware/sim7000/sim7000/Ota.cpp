@@ -37,11 +37,11 @@ Ota::Ota(MobileModem *modem) {
 
 void Ota::checkUpdates() {
   SerialMon.println("check new firmware");
-  String page = mobileModem->httpGet(server, "/api/firmware/latest", port);
+  String response = mobileModem->httpGet(server, "/api/firmware/latest", port);
   SerialMon.println("====");
-  SerialMon.println(page);
+  SerialMon.println(response);
   SerialMon.println("====");
-  int ver = page.toInt();
+  int ver = response.toInt();
   if (ver == 0) {
     SerialMon.println("Error of checking of new firmware");
     return;
@@ -53,7 +53,7 @@ void Ota::checkUpdates() {
 
     DEBUG_PRINT(F("Starting OTA update in 10 seconds..."));
     delay(10000);
-    
+
     this->startOtaUpdate(updateUrl);
   } else {
     SerialMon.println("No new firmware found");
@@ -74,7 +74,7 @@ void Ota::startOtaUpdate(const String& ota_url)
   Client* client = NULL;
   TinyGsm *modem = mobileModem->getModem();
   //if (protocol == "http") {
-    
+
     client = new TinyGsmClient(*modem);
     if (!client->connect(host.c_str(), port)) {
       DEBUG_FATAL(F("Client not connected"));
@@ -87,7 +87,7 @@ void Ota::startOtaUpdate(const String& ota_url)
   //} else {
   //  DEBUG_FATAL(String("Unsupported protocol: ") + protocol);
   //}
-  
+
   DEBUG_PRINT(String("Requesting ") + url);
 
   client->print(String("GET ") + url + " HTTP/1.0\r\n"

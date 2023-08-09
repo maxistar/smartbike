@@ -146,7 +146,6 @@ void Sim7000::loop()
   SerialMon.println("\nStart Loop...");
   TinyGsm *modem = mobileModem.getModem();
 
-
   solarVoltage = analogRead(36);
   batteryVoltage = analogRead(35);
 
@@ -166,7 +165,6 @@ void Sim7000::loop()
       SerialMon.print("getGPS ");
       SerialMon.println(millis());
       if (attemptCounter > 100) {
-        // TODO can we test this?
         break;
       }
     }
@@ -196,10 +194,8 @@ void Sim7000::loop()
   delay(200);
   esp_deep_sleep_start();
 
-  // Do nothing forevermore
-  while (true) {
-    modem->maintain();
-  }
+  // this should not be executed but if it comes here then just restart the device
+  ESP.restart();
 }
 
 
