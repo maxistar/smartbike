@@ -1,6 +1,9 @@
 # Bicycle Tracker Project
 
-LiliGo T-CALL-SIM800L module can be used or this project.
+The version based on [LiliGo T-CALL-SIM800L](https://github.com/Xinyuan-LilyGO/LilyGo-T-Call-SIM800) module can be used for this project.
+The module does not have GSM module, so if you want to use satellite positioning then NEO-7M module additionally needed.
+
+The version based on [LilyGO-T-SIM7000G](https://github.com/Xinyuan-LilyGO/LilyGO-T-SIM7000G) module can be used for this project.
 
 # Post Status
 
