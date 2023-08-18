@@ -35,6 +35,7 @@ public class HomeFragment extends Fragment {
         final TextView longitudeValue = binding.longitudeValue;
         final TextView batteryValue = binding.batteryValue;
         final TextView soloarBatteryValue = binding.solarBatteryValue;
+        final TextView versionValue = binding.versionValue;
 
         homeViewModel.getText().observe(
                 getViewLifecycleOwner(),
@@ -48,6 +49,7 @@ public class HomeFragment extends Fragment {
                     longitudeValue.setText(String.valueOf(users.longitude));
                     batteryValue.setText(String.valueOf(users.batteryValue));
                     soloarBatteryValue.setText(String.valueOf(users.solarBattery));
+                    versionValue.setText(String.valueOf(users.version));
                 }
         );
 

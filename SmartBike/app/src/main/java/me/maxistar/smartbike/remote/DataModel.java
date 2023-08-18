@@ -18,6 +18,8 @@ public class DataModel {
 
     public double solarBattery = 0;
 
+    public int version = 0;
+
     boolean loaded = false;
 
     @NonNull
