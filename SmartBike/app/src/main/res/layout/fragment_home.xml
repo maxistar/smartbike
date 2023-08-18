@@ -18,18 +18,139 @@
         app:layout_constraintTop_toTopOf="parent"
         android:contentDescription="@string/nav_app_bar_navigate_up_description" />
 
+
+
     <TextView
-        android:id="@+id/text_home"
-        android:layout_width="match_parent"
+        android:id="@+id/time_label"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:textAlignment="center"
         android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:text="@string/time_label"
+
+        app:layout_constraintEnd_toStartOf="@id/time_value"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/imageView" />
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintTop_toBottomOf="@id/imageView"
+
+        />
+
+    <TextView
+        android:id="@+id/time_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:text="@string/loading_value"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/time_label"
+        app:layout_constraintTop_toBottomOf="@id/imageView"
+
+     />
+
+
+    <TextView
+        android:id="@+id/latitude_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:text="@string/latitude_label"
+
+        app:layout_constraintEnd_toStartOf="@id/latitude_value"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintTop_toBottomOf="@id/time_label"
+
+        />
+
+    <TextView
+        android:id="@+id/latitude_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:text="@string/loading_value"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/latitude_label"
+        app:layout_constraintTop_toBottomOf="@id/time_value"
+
+        />
+
+
+    <TextView
+        android:id="@+id/longitude_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:text="@string/longitude_label"
+
+        app:layout_constraintEnd_toStartOf="@id/longitude_value"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintTop_toBottomOf="@id/latitude_label"
+
+        />
+
+    <TextView
+        android:id="@+id/longitude_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:text="@string/loading_value"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/longitude_label"
+        app:layout_constraintTop_toBottomOf="@id/latitude_value"
+
+        />
+
+
+    <TextView
+        android:id="@+id/battery_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:text="@string/battery_label"
+
+        app:layout_constraintEnd_toStartOf="@id/battery_value"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintTop_toBottomOf="@id/longitude_label"
+
+        />
+
+    <TextView
+        android:id="@+id/battery_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:text="@string/loading_value"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/battery_label"
+        app:layout_constraintTop_toBottomOf="@id/longitude_value"
+        />
+
+
+    <TextView
+        android:id="@+id/solar_battery_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:text="@string/solar_battery_label"
+
+        app:layout_constraintEnd_toStartOf="@id/solar_battery_value"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintTop_toBottomOf="@id/battery_label"
+
+        />
+
+    <TextView
+        android:id="@+id/solar_battery_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:text="@string/loading_value"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/solar_battery_label"
+        app:layout_constraintTop_toBottomOf="@id/battery_value"
+        />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

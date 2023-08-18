@@ -25,11 +25,20 @@ public class HomeFragment extends Fragment {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        final TextView textView = binding.textHome;
+        final TextView timeValue = binding.timeValue;
+        final TextView latitudeValue = binding.latitudeValue;
+        final TextView longitudeValue = binding.longitudeValue;
+        final TextView batteryValue = binding.batteryValue;
+        final TextView soloarBatteryValue = binding.solarBatteryValue;
+
         homeViewModel.getText().observe(
                 getViewLifecycleOwner(),
                 users -> {
-                    textView.setText(users.toString());
+                    timeValue.setText(users.dateTime);
+                    latitudeValue.setText(String.valueOf(users.latitude));
+                    longitudeValue.setText(String.valueOf(users.longitude));
+                    batteryValue.setText(String.valueOf(users.batteryValue));
+                    soloarBatteryValue.setText(String.valueOf(users.solarBattery));
                 }
         );
 

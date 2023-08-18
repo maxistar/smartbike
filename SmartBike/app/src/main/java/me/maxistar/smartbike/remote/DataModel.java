@@ -8,13 +8,13 @@ public class DataModel {
 
     public String dateTime = "";
 
-    double latitude = 0;
+    public double latitude = 0;
 
-    double longitude = 0;
+    public double longitude = 0;
 
-    double batteryValue = 0;
+    public double batteryValue = 0;
 
-    double solarBattery = 0;
+    public double solarBattery = 0;
 
     boolean loaded = false;
 

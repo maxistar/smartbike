@@ -3,4 +3,12 @@
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
+
+    <string name="time_label">Time:</string>
+    <string name="latitude_label">Latitude:</string>
+    <string name="longitude_label">Longitude:</string>
+    <string name="battery_label">Battery:</string>
+    <string name="solar_battery_label">Solar Battery:</string>
+    <string name="firmware_version_label">Firmware Version:</string>
+    <string name="loading_value">loading…</string>
 </resources>
