@@ -8,7 +8,7 @@ public class DataModel {
 
     public String serverResponse = "";
 
-    public String dateTime = "";
+    public Date dateTime;
 
     public double latitude = 0;
 
@@ -25,7 +25,7 @@ public class DataModel {
     public String toString() {
         return "DataModel{" +
                 "serverResponse='" + serverResponse + '\'' +
-                ", dateTime='" + dateTime + '\'' +
+                ", dateTime='" + dateTime.toString() + '\'' +
                 ", latitude=" + latitude +
                 ", longitude=" + longitude +
                 ", batteryValue=" + batteryValue +

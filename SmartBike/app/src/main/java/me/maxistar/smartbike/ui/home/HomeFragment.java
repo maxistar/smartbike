@@ -9,6 +9,11 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+
+import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
+import java.util.Locale;
+
 import me.maxistar.smartbike.databinding.FragmentHomeBinding;
 import me.maxistar.smartbike.remote.Backend;
 import me.maxistar.smartbike.remote.DataModel;
@@ -34,7 +39,11 @@ public class HomeFragment extends Fragment {
         homeViewModel.getText().observe(
                 getViewLifecycleOwner(),
                 users -> {
-                    timeValue.setText(users.dateTime);
+                    if (users.dateTime != null) {
+                        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+                        String formattedDate = dateFormat.format(users.dateTime );
+                        timeValue.setText(formattedDate);
+                    }
                     latitudeValue.setText(String.valueOf(users.latitude));
                     longitudeValue.setText(String.valueOf(users.longitude));
                     batteryValue.setText(String.valueOf(users.batteryValue));

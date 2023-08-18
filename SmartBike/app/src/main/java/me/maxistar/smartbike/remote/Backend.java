@@ -10,6 +10,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import me.maxistar.smartbike.BuildConfig;
 import me.maxistar.smartbike.ui.home.HomeViewModel;
@@ -32,10 +35,12 @@ public class Backend {
 
         protected DataModel doInBackground(String... urls) {
             DataModel data = new DataModel();
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+
             try {
                 String serverResponse = sendGET(urls[0]);
                 JSONObject result = new JSONObject(serverResponse);
-                data.dateTime = result.getString("timestamp");
+                data.dateTime = dateFormat.parse(result.getString("timestamp"));
                 String jsonData = result.getString("battery_info");
                 JSONObject batteryInfo = new JSONObject(jsonData);
                 data.longitude = batteryInfo.getDouble("longitude");
@@ -43,11 +48,7 @@ public class Backend {
                 data.batteryValue = batteryInfo.getDouble("battery");
                 data.solarBattery = batteryInfo.getDouble("solarBattery");
                 return data;
-            } catch (JSONException e) {
-                e.printStackTrace();
-                data.serverResponse = e.toString();
-                return data;
-            } catch (IOException e) {
+            } catch (JSONException | IOException | ParseException e) {
                 e.printStackTrace();
                 data.serverResponse = e.toString();
                 return data;
