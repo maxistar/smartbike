@@ -1,5 +1,7 @@
 package me.maxistar.smartbike.remote;
 
+import androidx.annotation.NonNull;
+
 import java.util.Date;
 
 public class DataModel {
@@ -18,6 +20,7 @@ public class DataModel {
 
     boolean loaded = false;
 
+    @NonNull
     @Override
     public String toString() {
         return "DataModel{" +
