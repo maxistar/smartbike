@@ -5,6 +5,11 @@ The module does not have GSM module, so if you want to use satellite positioning
 
 The version based on [LilyGO-T-SIM7000G](https://github.com/Xinyuan-LilyGO/LilyGO-T-SIM7000G) module can be used for this project.
 
+Additionally following components can be used:
+
+- [Solar Battery](https://amzn.eu/d/6o92Us3)
+- [Waterproof electical plug](https://amzn.eu/d/hH6DRAf)
+
 # Post Status
 
 ## Post to local server
