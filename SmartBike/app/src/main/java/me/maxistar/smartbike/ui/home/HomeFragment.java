@@ -13,6 +13,7 @@ import androidx.lifecycle.ViewModelProvider;
 import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
+import java.util.TimeZone;
 
 import me.maxistar.smartbike.databinding.FragmentHomeBinding;
 import me.maxistar.smartbike.remote.Backend;
@@ -42,6 +43,7 @@ public class HomeFragment extends Fragment {
                 users -> {
                     if (users.dateTime != null) {
                         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+                        dateFormat.setTimeZone(TimeZone.getTimeZone("Europe/Berlin"));
                         String formattedDate = dateFormat.format(users.dateTime );
                         timeValue.setText(formattedDate);
                     }

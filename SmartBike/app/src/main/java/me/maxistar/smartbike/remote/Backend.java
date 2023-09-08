@@ -13,6 +13,7 @@ import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.TimeZone;
 
 import me.maxistar.smartbike.BuildConfig;
 import me.maxistar.smartbike.ui.home.HomeViewModel;
@@ -36,7 +37,7 @@ public class Backend {
         protected DataModel doInBackground(String... urls) {
             DataModel data = new DataModel();
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
-
+            dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
             try {
                 String serverResponse = sendGET(urls[0]);
                 JSONObject result = new JSONObject(serverResponse);
