@@ -65,8 +65,8 @@ String getBatteryDebug() {
 
     sprintf(
       b,
-      "{\"latitude\": \"%f\",\n\"longitude\": \"%f\",\n\"battery\": \"%f\",\n\"solarBattery\": \"%f\"}",
-      latitude, longitude, batteryVoltage, solarVoltage
+      "{\"latitude\": \"%f\",\"longitude\": \"%f\",\"battery\": \"%f\",\"solarBattery\": \"%f\",\"sleep\": \"%d\" }",
+      latitude, longitude, batteryVoltage, solarVoltage, TIME_TO_SLEEP * uS_TO_S_FACTOR
     );
 
     return String(b);
