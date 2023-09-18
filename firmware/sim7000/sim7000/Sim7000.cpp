@@ -35,6 +35,7 @@ const char resource[] = "/api/status/"; // resource path, for example: /post-dat
 const int  port = EXTERNAL_URL_PORT;    // server port number
 
 
+long startTime;
 
 
 
@@ -62,11 +63,11 @@ float latitude = 0;
 
 String getBatteryDebug() {
     char b[1000];
-
+    long executionTime = millis() - startTime;
     sprintf(
       b,
-      "{\"latitude\": \"%f\",\"longitude\": \"%f\",\"battery\": \"%f\",\"solarBattery\": \"%f\",\"sleep\": \"%d\" }",
-      latitude, longitude, batteryVoltage, solarVoltage, TIME_TO_SLEEP * uS_TO_S_FACTOR
+      "{\"latitude\": \"%f\",\"longitude\": \"%f\",\"battery\": \"%f\",\"solarBattery\": \"%f\",\"sleep\": \"%d\", \"execution\": \"%ld\"}",
+      latitude, longitude, batteryVoltage, solarVoltage, TIME_TO_SLEEP, executionTime
     );
 
     return String(b);
@@ -98,6 +99,7 @@ void checkNewFirmware() {
  */
 void Sim7000::setup()
 {
+    startTime = millis();
     // Set console baud rate
     SerialMon.begin(9600);
     delay(10);
