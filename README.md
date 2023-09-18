@@ -10,6 +10,14 @@ Additionally following components can be used:
 - [Solar Battery](https://amzn.eu/d/6o92Us3)
 - [Waterproof electical plug](https://amzn.eu/d/hH6DRAf)
 
+This project contents backed service, android application, arduino firmware.
+There is also iOS app exists.
+
+The project allows getting telemetry from your bike which includes GPS location, battery level, insulation level and some other utility data.
+
+In order to make the project independent of external power supply the telemetry is being sent every 1-2 hours. Which allows battery changed from relatively small solar element.
+
+
 # Post Status
 
 ## Post to local server

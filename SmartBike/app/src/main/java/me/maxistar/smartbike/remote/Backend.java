@@ -48,6 +48,8 @@ public class Backend {
                 data.latitude = batteryInfo.getDouble("latitude");
                 data.batteryValue = batteryInfo.getDouble("battery");
                 data.solarBattery = batteryInfo.getDouble("solarBattery");
+                data.sleepTime = batteryInfo.getInt("sleep");
+                data.executionTime = batteryInfo.getInt("execution");
                 data.version = result.getInt("version");
                 return data;
             } catch (JSONException | IOException | ParseException e) {

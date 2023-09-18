@@ -20,6 +20,10 @@ public class DataModel {
 
     public int version = 0;
 
+    public int sleepTime = 0;
+
+    public int executionTime = 0;
+
     boolean loaded = false;
 
     @NonNull

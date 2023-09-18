@@ -11,4 +11,7 @@
     <string name="solar_battery_label">Solar Battery:</string>
     <string name="firmware_version_label">Firmware:</string>
     <string name="loading_value">loading…</string>
+    <string name="execution_time_label">Execution Time:</string>
+    <string name="next_call_label">Next Call:</string>
+    <string name="ms">%d ms</string>
 </resources>
