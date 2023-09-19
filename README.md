@@ -101,6 +101,34 @@ using on mac
 docker build -t maxistar/arduino-esp32-ci --platform linux/amd64 .
 ````
 
+## Arduino Unit Tests
+
+In Order to test code [cxxtest](https://github.com/CxxTest/cxxtest) used. The coverage is being generated with [gcovr](https://gcovr.com/en/stable/). [Cpplint](https://github.com/cpplint/cpplint) is used to check the code quality
+
+### CXXTest
+
+CxxTest is a unit testing framework for C++ that is similar in
+spirit to JUnit, CppUnit, and xUnit.
+
+```shell
+# go to the test folder
+cd firmware/unittests
+
+# generate unit tests
+./testget.sh
+
+# start the runner
+./runner
+```
+
+### GCovr
+
+Gcovr provides a utility for managing the use of the GNU gcov utility and generating summarized code coverage results.
+
+### CPP Lint
+
+Cpplint is a command-line tool to check C/C++ files for style issues following Google's C++ style guide.
+
 ## Links
 
 - [Random Nerd Tutorial](https://randomnerdtutorials.com/esp32-sim800l-publish-data-to-cloud/)
