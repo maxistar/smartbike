@@ -1,7 +1,7 @@
 #ifndef FIRMWARE_SMARTBIKE_SLEEPTIMER_CPP_
 #define FIRMWARE_SMARTBIKE_SLEEPTIMER_CPP_
 
-long long int GetSleepDuration(float voltage, float insulation) {
+long int GetSleepDuration(float voltage, float insulation) {
   if (voltage < 2000) {
       return 6 * 60 * 60;
   }

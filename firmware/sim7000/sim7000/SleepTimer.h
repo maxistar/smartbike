@@ -1,6 +1,6 @@
 #ifndef FIRMWARE_SMARTBIKE_SLEEPTIMER_H_
 #define FIRMWARE_SMARTBIKE_SLEEPTIMER_H_
 
-long long int GetSleepDuration(float voltage, float insulation);
+long int GetSleepDuration(float voltage, float insulation);
 
-#endif  // FIRMWARE_SMARTBIKE_SLEEPTIMER_H_
+#endif // FIRMWARE_SMARTBIKE_SLEEPTIMER_H_
