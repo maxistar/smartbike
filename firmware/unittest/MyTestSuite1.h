@@ -2,12 +2,9 @@
 #include <cxxtest/TestSuite.h>
 #include <cxxtest/TestSuite.h>
 
-// # include "SleepTimer.h"
+#include "SleepTimer.h"
 
 
-long long int GetSleepDuration(float voltage, float insulation) {
-  return 0;
-}
 
 class MyTestSuite1 : public CxxTest::TestSuite
 {
@@ -21,6 +18,6 @@ public:
     void testSleepTimer(void)
     {
         long long result = GetSleepDuration(0.0, 0.0);
-        TS_ASSERT_EQUALS(result, 0.0);
+        TS_ASSERT_EQUALS(result, 6 * 60 * 60);
     }
 };
