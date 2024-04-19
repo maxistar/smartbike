@@ -15,11 +15,24 @@ final class ContentViewModel: ObservableObject {
     @Published var nextRequest: String = ""
     @Published var batteryInfo: BatteryInfo = BatteryInfo()
     
+    var remoteUrl: String = ""
+    
     
     func fetchData() {
         isLoading = true
         Task {
-            let (data, _) = try await URLSession.shared.data(from: URL(string:"https://changeme/api/info/latest")!)
+            
+            if let path = Bundle.main.path(forResource: "Config", ofType: "plist"),
+               let configDict = NSDictionary(contentsOfFile: path) as? [String: Any],
+               let remoteUrl = configDict["RemoteServer"] as? String
+            {
+                self.remoteUrl = remoteUrl
+            } else {
+                // Handle the case where the configuration file or key is missing
+                print("Configuration file or API key not found")
+            }
+            
+            let (data, _) = try await URLSession.shared.data(from: URL(string: self.remoteUrl)!)
             
             let decodedResponse = try? JSONDecoder().decode(TrackingInfo.self, from: data)
             let trackInfo = decodedResponse?.battery_info ?? "error"
