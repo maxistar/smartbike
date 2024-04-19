@@ -121,6 +121,12 @@ cd firmware/unittests
 ./runner
 ```
 
+## iOS Version
+
+in order to compile iOS version you will need a Mac computer and xcode installed. You should have developer profile of free provisioning profile.
+Config.plist.dist into Config.plist and update server address for the real one.
+
+
 ### GCovr
 
 Gcovr provides a utility for managing the use of the GNU gcov utility and generating summarized code coverage results.
